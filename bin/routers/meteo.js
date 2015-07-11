@@ -2,6 +2,7 @@
 
 // load meteocollect general config file.
 var configs = require('../configs');
+var bodyParser = require('body-parser')
 
 // load logger definitions from configs
 var winstonConf = require('winston-config');
@@ -46,9 +47,13 @@ function logReq(req, res, next){
 }
 
 router.use([logReq]); // set middleware for this submodule
+router.use(bodyParser.urlencoded({
+    extended: true
+}));
+router.use(bodyParser.json());
 
-// if LOAD_TEST_DATA env var defined, load sample data 
-if (process.env.LOAD_TEST_DATA) {
+// if USE_TEST_DATA env var defined, load sample data 
+if (process.env.USE_TEST_DATA) {
     logger.log('info', 'loading samples...');
     var samples = require('../../test/sample-samples.js').samples;
 } else {
@@ -57,9 +62,13 @@ if (process.env.LOAD_TEST_DATA) {
 
 // CRUD implementation
 router['post']('/', function(req, res){
-    res.send('POST received\n');
+    res.send('POST received\n' +
+        'Parameters: ' +
+        JSON.stringify(req.body, null, 2)
+        );
 });
 router['get']('/', function(req, res){
+    res.send('GET received\n');
     res.send(samples);
 });
 router['put']('/', function(req, res){
