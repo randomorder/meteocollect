@@ -1,16 +1,21 @@
 {
-    "name": "meteocollect",
-    "version": "0.0.1",
-    "description": "Web application for logging and presenting environmental data collected and delivered through REST interface.",
-    "main": "bin/index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node ./bin/index.js",
-        "docs": "sphinx-build -b html ./doc/src ./doc/html && xdg-open ./doc/html/README.html"
-    },
-    "author": [
-        "Mirco Bertelli",
-        "Alessandro Parma"
-    ],
-    "license": "GPL-2.0"
+  "name": "meteocollect",
+  "version": "0.0.1",
+  "description": "Web application for logging and presenting environmental data collected and delivered through REST interface.",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/index.js",
+    "docs": "sphinx-build -b html ./doc/src ./doc/html && xdg-open ./doc/html/README.html"
+  },
+  "author": [
+    "Mirco Bertelli",
+    "Alessandro Parma"
+  ],
+  "license": "GPL-2.0",
+  "dependencies": {
+    "cors": "^2.7.1",
+    "express": "^4.13.1",
+    "winston": "^1.0.1"
+  }
 }
