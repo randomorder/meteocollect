@@ -26,6 +26,8 @@ var meteocollect = express();
 
 // load "/system/..." REST API
 meteocollect.use('/system', require('./routers/system'));
+// load "/meteo/..." REST API
+meteocollect.use('/meteo', require('./routers/meteo'));
 
 // Meteocollect...
 // ...run!!!

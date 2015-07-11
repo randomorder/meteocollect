@@ -1,4 +1,4 @@
-{
+exports.samples = {
 	"samples": [
 		{
 			"time-collected": 1436636163,
