@@ -1,18 +1,40 @@
-var configs = require('./configs.json');
+// load meteocollect general config file.
+var configs = require('./configs');
 
-var express = require('express');
+// load logger definitions from configs
+var winstonConf = require('winston-config');
+winstonConf.fromJson(configs.loggers, function(error, winston) {
+    if (error) {
+        console.log('error during winston configuration');
+        process.exit(1);
+    }
+});
 var winston = require('winston');
-var moment = require('moment');
 
+// define a logger from "application" config.
+var logger = winston.loggers.get('application');
+
+// utility to format date strings
+var moment = require('moment');
+function now(){
+    return moment().format(configs['date-format']);
+}
+
+// Meteocollect beginning ------------------------------------------------------
+var express = require('express');
 var meteocollect = express();
 
+// load "/system/..." REST API
 meteocollect.use('/system', require('./routers/system'));
 
-var now = moment().format(configs['date-format']);
-try{
+// Meteocollect...
+// ...run!!!
+try {
     meteocollect.listen(configs.port);
-    winston.log('info','[' + now + ']: Meteocollect is listening on port ' + configs.port);
-} catch (e){
-    winston.log('error','[' + now + ']: Meteocollect listening error on port ' + configs.port, {error: e});
+    logger.log('info', '[' + now() + ']: Meteocollect is listening on port ' + configs.port);
+} catch (e) {
+    logger.log('error', '[' + now()+ ']: Meteocollect listening error on port ' + configs.port, {
+        error: e
+    });
     process.exit(1);
 }

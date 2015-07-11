@@ -1,33 +1,51 @@
 // this defines and implements REST API for the /rest/system URL
-var configs = require('../configs.json');
 
-var express = require('express');
+// load meteocollect general config file.
+var configs = require('../configs');
+
+// load logger definitions from configs
+var winstonConf = require('winston-config');
+winstonConf.fromJson(configs.loggers, function(error, winston) {
+    if (error) {
+        console.log('error during winston configuration');
+        process.exit(1);
+    }
+});
 var winston = require('winston');
-var urlParser = require('url');
-var moment = require('moment');
 
+// define a logger from "application" config.
+var logger = winston.loggers.get('application');
+
+// utility to format date strings
+var moment = require('moment');
+function now(){
+    return moment().format(configs['date-format']);
+}
+var urlParser = require('url');
+
+// Define router for "/system/..." REST API ------------------------------------
+var express = require('express');
 var router = express.Router();
 
 // middlewares definition
-function logger(req, res, next){
-    var now = moment().format(configs['date-format'])
+function logReq(req, res, next){
     var method = req.method;
     var url = req.url;
     var pUrl = urlParser.parse(req.url, true);
     var headers = req.headers;
 
-    winston.log('info','[' + now + ']: ' + method + ' /system' + url);
-    winston.log('info','[' + now + ']:', {
+    logger.log('info','[' + now() + ']: ' + method + ' /system' + url);
+    logger.log('verbose','[' + now() + ']:', {
         method: method,
         pathname: '/system' + pUrl.pathname,
         query: pUrl.query,
         headers: headers
     });
-    
+
     next();
 }
 
-router.use([logger]);
+router.use([logReq]); // set middleware for this submodule
 
 // CRUD implementation
 router['post']('/', function(req, res){
