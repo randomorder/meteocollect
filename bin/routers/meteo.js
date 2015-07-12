@@ -28,6 +28,9 @@ var urlParser = require('url');
 var express = require('express');
 var router = express.Router();
 
+var Datastore = require('nedb');
+var db = new Datastore({ filename : "./data/datastore", autoload: true});
+
 // middlewares definition
 function logReq(req, res, next){
     var method = req.method;
@@ -52,14 +55,6 @@ router.use(bodyParser.urlencoded({
 }));
 router.use(bodyParser.json());
 
-// if USE_TEST_DATA env var defined, load sample data
-if (process.env.USE_TEST_DATA) {
-    logger.log('info', 'loading samples...');
-    var samples = require('../../test/sample-samples.js').samples;
-} else {
-    samples = {};
-}
-
 // CRUD implementation
 router['post']('/', function(req, res){
     res.send('POST received\n' +
@@ -68,7 +63,18 @@ router['post']('/', function(req, res){
         );
 });
 router['get']('/', function(req, res){
-    res.send('GET received\n' + JSON.stringify(samples));
+    queryObj = { }
+    db.find(queryObj,function(err, docs) {
+        if (err){
+            errorMsg = 'Error querying object: ' + JSON.stringify(queryObj, null, 2);
+            res.status(500).send({
+                error: errorMsg
+            });
+        }
+        else{
+            res.send('GET received\n' + JSON.stringify(docs));
+        }
+    });
 });
 router['put']('/', function(req, res){
     res.send('PUT received\n');

@@ -1,0 +1,5 @@
+{"time-collected":1436636163,"probe_id":3,"sample":{"type":"temperature","value":28,"accuracy":0.5,"coordinates":[125.6,10.1]},"_id":"oGrHaC1tJHDk5H7s"}
+{"time-collected":1436636122,"probe_id":2,"sample":{"type":"wind-intensity","value":7,"accuracy":2,"coordinates":[125.6,10.1]},"_id":"96G11H3BVaWPa6qx"}
+{"time-collected":1436634133,"probe_id":2,"sample":{"type":"wind-direction","value":273,"accuracy":5,"coordinates":[125.6,10.1]},"_id":"8RtrQB9t3Uu9ECqq"}
+{"time-collected":1436636001,"probe_id":1,"sample":{"type":"rain-intensity","value":7,"accuracy":0.2,"coordinates":[125.6,10.1]},"_id":"Z0fpG7jnwLiJZ1co"}
+{"time-collected":1436636122,"probe_id":4,"sample":{"type":"pressure","value":1030.1,"accuracy":3,"coordinates":[125.6,10.1]},"_id":"OgH98bKluiH3QdKv"}
