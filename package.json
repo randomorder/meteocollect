@@ -6,7 +6,7 @@
   "scripts": {
     "test": "cp test/datastore data/datastore && node ./bin/index.js",
     "start": "node ./bin/index.js",
-    "docs": "sphinx-build -b html ./doc/src ./doc/html && xdg-open ./doc/html/README.html"
+    "docs": "sphinx-build -b html ./doc/src ./doc/html && xdg-open ./doc/html/index.html"
   },
   "author": [
     "Mirco Bertelli",
