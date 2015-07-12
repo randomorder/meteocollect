@@ -1,5 +1,5 @@
 // this defines and implements REST API for the /rest/system URL
-
+var apiName = '/system';
 // load meteocollect general config file.
 var configs = require('../configs');
 
@@ -34,10 +34,10 @@ function logReq(req, res, next){
     var pUrl = urlParser.parse(req.url, true);
     var headers = req.headers;
 
-    logger.log('info','[' + now() + ']: ' + method + ' /system' + url);
+    logger.log('info','[' + now() + ']: ' + method + ' ' + apiName + url);
     logger.log('verbose','[' + now() + ']:', {
         method: method,
-        pathname: '/system' + pUrl.pathname,
+        pathname: apiName + pUrl.pathname,
         query: pUrl.query,
         headers: headers
     });

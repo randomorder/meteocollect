@@ -1,5 +1,5 @@
-// this defines and implements REST API for the /rest/system URL
-
+// this defines and implements REST API for the /rest/meteo URL
+var apiName = '/meteo';
 // load meteocollect general config file.
 var configs = require('../configs');
 var bodyParser = require('body-parser')
@@ -24,7 +24,7 @@ function now(){
 }
 var urlParser = require('url');
 
-// Define router for "/system/..." REST API ------------------------------------
+// Define router for "/meteo/..." REST API ------------------------------------
 var express = require('express');
 var router = express.Router();
 
@@ -35,10 +35,10 @@ function logReq(req, res, next){
     var pUrl = urlParser.parse(req.url, true);
     var headers = req.headers;
 
-    logger.log('info','[' + now() + ']: ' + method + ' /system' + url);
+    logger.log('info','[' + now() + ']: ' + method + ' ' + apiName + url);
     logger.log('verbose','[' + now() + ']:', {
         method: method,
-        pathname: '/system' + pUrl.pathname,
+        pathname: apiName + pUrl.pathname,
         query: pUrl.query,
         headers: headers
     });
@@ -52,12 +52,12 @@ router.use(bodyParser.urlencoded({
 }));
 router.use(bodyParser.json());
 
-// if USE_TEST_DATA env var defined, load sample data 
+// if USE_TEST_DATA env var defined, load sample data
 if (process.env.USE_TEST_DATA) {
     logger.log('info', 'loading samples...');
     var samples = require('../../test/sample-samples.js').samples;
 } else {
-    samples = {}
+    samples = {};
 }
 
 // CRUD implementation
@@ -68,8 +68,7 @@ router['post']('/', function(req, res){
         );
 });
 router['get']('/', function(req, res){
-    res.send('GET received\n');
-    res.send(samples);
+    res.send('GET received\n' + JSON.stringify(samples));
 });
 router['put']('/', function(req, res){
     res.send('PUT received\n');

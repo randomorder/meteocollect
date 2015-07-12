@@ -7,7 +7,7 @@ Meteocollect
 :Authors:
   Alessandro Parma,
   Mirco Bertelli
-  
+
 :Version: 0.1
 
 Brief Description
