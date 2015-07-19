@@ -79,7 +79,7 @@ Una volta istallato node.js, npm e sphinx è possibile compilare la
 documentazione con il comando:
 ::
 
-    npm run-script docs
+    npm run docs
 
 Il comando apre automaticamente la documentazione compilata nel browser di
 default. Se ciò non dovesse accadere aprire manualmente il file
@@ -256,3 +256,27 @@ All'interno del file ``bin/configs.js`` è possibile settare:
         :Nota: per maggiori dettagli vedi la documentazione di `winston-config`_.
 
         .. _winston-config: https://www.npmjs.com/package/winston-config
+
+Avvio
+-----
+
+Se *Meteocollect* non è mai stato avviato, è necessarrio scaricate tutti i
+moduli *Node.js* dai quali dipende. Per fare questo è sufficiente il comando:
+::
+
+    npm install
+
+Completato il processo, *Meteocollect* può essere avviato con:
+::
+
+    npm start
+
+Per interrompere l'esecuzione si può usare il comando:
+::
+
+    npm stop
+
+.. note:: Se si vuole campbiare la configurazione, questo può essere fatto anche
+          mentre il servizio è in esecuzione, ma le nuove configuarazioni
+          saranno utilizzate al successino avvio. Si può riavviare
+          *Meteocollect* con il comando ``npm restart``.
