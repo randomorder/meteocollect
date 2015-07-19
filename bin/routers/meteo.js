@@ -66,4 +66,11 @@ router['delete']('/', function(req, res){
     res.send('DELETE received\n');
 });
 
+// any other HTTP methods match here except for HEAD method which matches
+// to 'GET' handler. To match HEAD you have define a 'router.head(...)' rule
+// before any 'GET' handler definitions.
+router.all('/',function(req, res){
+    res.status(405).send('Method not allowed\n');
+});
+
 module.exports = router;
