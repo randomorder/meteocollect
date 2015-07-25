@@ -3,4 +3,5 @@
 *.swp
 *~
 npm-debug.log
+data/datastore
 node_modules
