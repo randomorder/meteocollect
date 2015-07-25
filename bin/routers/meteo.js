@@ -50,6 +50,7 @@ router['get']('/', function(req, res){
     db.find(queryObj,function(err, docs) {
         if (err){
             errorMsg = 'Error querying object: ' + JSON.stringify(queryObj, null, 2);
+            logger.log('info', '[' + now() + ']: ' + errorMsg);
             res.status(500).send({
                 error: errorMsg
             });
