@@ -1,32 +1,15 @@
 // this defines and implements REST API for the /rest/meteo URL
 var apiName = '/meteo';
-// load meteocollect general config file.
-var configs = require('../configs');
-var bodyParser = require('body-parser')
 
-// load logger definitions from configs
-var winstonConf = require('winston-config');
-winstonConf.fromJson(configs.loggers, function(error, winston) {
-    if (error) {
-        console.log('error during winston configuration');
-        process.exit(1);
-    }
-});
-var winston = require('winston');
-
-// define a logger from "application" config.
-var logger = winston.loggers.get('application');
-
-// utility to format date strings
-var moment = require('moment');
-function now(){
-    return moment().format(configs['date-format']);
-}
-var urlParser = require('url');
+var configs     = require('../configs');      // load meteocollect general config file.
+var bodyParser  = require('body-parser');
+var loggers     = require('../utils/loggers');
+var logger      = loggers.application;        // define a logger from "application" config.
+var urlParser   = require('url');
 
 // Define router for "/meteo/..." REST API ------------------------------------
 var express = require('express');
-var router = express.Router();
+var router  = express.Router();
 
 var Datastore = require('nedb');
 var db = new Datastore({ filename : "./data/datastore", autoload: true});
@@ -38,8 +21,8 @@ function logReq(req, res, next){
     var pUrl = urlParser.parse(req.url, true);
     var headers = req.headers;
 
-    logger.log('info','[' + now() + ']: ' + method + ' ' + apiName + url);
-    logger.log('verbose','[' + now() + ']:', {
+    logger.log('info', method + ' ' + apiName + url);
+    logger.log('verbose','', {
         method: method,
         pathname: apiName + pUrl.pathname,
         query: pUrl.query,
@@ -63,7 +46,7 @@ router['post']('/', function(req, res){
         );
 });
 router['get']('/', function(req, res){
-    queryObj = { }
+    queryObj = { };
     db.find(queryObj,function(err, docs) {
         if (err){
             errorMsg = 'Error querying object: ' + JSON.stringify(queryObj, null, 2);
@@ -82,6 +65,13 @@ router['put']('/', function(req, res){
 });
 router['delete']('/', function(req, res){
     res.send('DELETE received\n');
+});
+
+// any other HTTP methods match here except for HEAD method which matches
+// to 'GET' handler. To match HEAD you have define a 'router.head(...)' rule
+// before any 'GET' handler definitions.
+router.all('/',function(req, res){
+    res.status(405).send('Method not allowed\n');
 });
 
 module.exports = router;
